@@ -4,7 +4,8 @@
   "description": "api server ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,12 @@
   },
   "homepage": "https://github.com/skykeeper0/birdsApi#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "express": "^4.15.2",
-    "morgan": "^1.8.1"
+    "hapi": "^16.1.1",
+    "hapi-auth-jwt": "^4.0.0",
+    "jsonwebtoken": "^7.4.0",
+    "knex": "^0.12.9",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0"
   }
 }

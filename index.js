@@ -1,13 +1,38 @@
 const path = require('path');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const conf = require('./shared/config')();
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
-app.listen(port, () => {
-    console.log(`API server listening on port ${port}...`)
-})
+'use strict';
 
+const Hapi = require('hapi');
+
+// Create a server with a host and port
+const server = new Hapi.Server();
+server.connection({ 
+    host: 'localhost', 
+    port: port 
+});
+
+// Add the route
+server.route({
+    method: 'GET',
+    path:'/hello', 
+    handler: function (request, reply) {
+
+        return reply('hello world');
+    }
+});
+
+// Start the server
+server.start((err) => {
+
+    if (err) {
+        throw err;
+    }
+    console.log('Server running at:', server.info.uri);
+});

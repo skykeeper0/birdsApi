@@ -1,27 +1,29 @@
-const Knex = require('./knex');
-const port = process.env.PORT || 8080;
+'use strict';
+
+var Knex = require('./knex');
+var port = process.env.PORT || 8080;
 
 // app.use(bodyParser.json());
-const Hapi = require('hapi');
+var Hapi = require('hapi');
 
 // Create a server with a host and port
-const server = new Hapi.Server();
+var server = new Hapi.Server();
 server.connection({
   host: 'localhost',
-  port,
+  port: port
 });
 
 // Add the route
 server.route({
   method: 'GET',
   path: '/hello',
-  handler(request, reply) {
+  handler: function handler(request, reply) {
     return reply('hello world');
-  },
+  }
 });
 
 // Start the server
-server.start((err) => {
+server.start(function (err) {
   if (err) {
     throw err;
   }
@@ -29,13 +31,13 @@ server.start((err) => {
 });
 
 // register(...) registers a module within the instance of the API
-server.register(require('hapi-auth-jwt'), (err) => {
+server.register(require('hapi-auth-jwt'), function (err) {
   server.auth.strategy('token', 'jwt', {
     key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
 
     verifyOptions: {
-      algorithms: ['HS256'],
-    },
+      algorithms: ['HS256']
+    }
   });
 });
 
@@ -43,28 +45,27 @@ server.register(require('hapi-auth-jwt'), (err) => {
 server.route({
   path: '/birds',
   method: 'GET',
-  handler: (request, reply) => {
-    const getOperation = Knex('birdbase').where({
+  handler: function handler(request, reply) {
+    var getOperation = Knex('birdbase').where({
 
-      isPublic: true,
+      isPublic: true
 
-    }).select('name', 'species', 'picture_url').then((results) => {
+    }).select('name', 'species', 'picture_url').then(function (results) {
       if (!results || results.length === 0) {
         reply({
           error: true,
-          errMessage: 'no public bird found',
+          errMessage: 'no public bird found'
         });
       }
 
       reply({
 
         dataCount: results.length,
-        data: results,
+        data: results
 
       });
-    }).catch((err) => {
+    }).catch(function (err) {
       reply('server-side error');
     });
-  },
+  }
 });
-

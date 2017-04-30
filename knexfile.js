@@ -1,7 +1,7 @@
 module.exports = {
   development: {
-    // migration: { tableName: 'knex_migrations' },
-    // seeds: { tableName: './seeds' },
+    migration: { tableName: 'knex_migrations' },
+    seeds: { tableName: './seeds' },
 
     client: 'mysql',
     connection: {

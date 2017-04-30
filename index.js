@@ -1,4 +1,4 @@
-'use strict';
+
 
 const path = require('path');
 // const bodyParser = require('body-parser');
@@ -21,17 +21,27 @@ server.connection({
 server.route({
   method: 'GET',
   path: '/hello',
-  handler (request, reply) {
-
-        return reply('hello world');
-    },
+  handler(request, reply) {
+    return reply('hello world');
+  },
 });
 
 // Start the server
 server.start((err) => {
   if (err) {
-      throw err;
+    throw err;
   }
   console.log('Server running at:', server.info.uri);
+});
+
+// register(...) registers a module within the instance of the API
+server.register(require('hapi-auth-jwt'), (err) => {
+  server.auth.strategy('token', 'jwt', {
+    key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
+
+    verifyOptions: {
+      algorithms: ['HS256'],
+    },
+  });
 });
 

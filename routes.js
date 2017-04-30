@@ -4,6 +4,7 @@ const GUID = require('node-uuid');
 
 const routes = [
   {
+    // GET /birds
     path: '/birds',
     method: 'GET',
     handler: (request, reply) => {
@@ -30,6 +31,8 @@ const routes = [
       });
     },
   }, {
+
+    // POST /birds
     path: '/birds',
     method: 'POST',
     config: {
@@ -38,9 +41,9 @@ const routes = [
       },
     },
     handler: (request, reply) => {
-      console.log(request.auth.credentials);
+      console.log(request.payload);
 
-      const { bird } = request.payload;
+      const bird = request.payload;
       const guid = GUID.v4();
 
       const insertOperation = Knex('birds').insert({
@@ -58,8 +61,58 @@ const routes = [
       }).catch((err) => {
         reply('server-side error');
       });
+      // reply('tested');
     },
-  },
+  },{
+
+    // POST /auth
+    path: '/auth',
+    method: 'POST',
+    handler: (request, reply) => {
+          // This is a ES6 standard
+      const { username, password } = request.payload;
+
+      const getOperation = Knex('users').where({
+
+        // Equiv. to `username: username`
+        username,
+
+        }).select('password', 'guid').then(([user]) => {
+            // if user are not found
+          if (!user) {
+            reply({
+
+                error: true,
+                errMessage: 'the specified user was not found',
+
+              });
+
+              // return to not suing else condition
+            return;
+          }
+
+            // if user are found
+          if (user.password === password) {
+            const token = jwt.sign({
+                username,
+                scope: user.guid,
+              }, 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy', {
+                algorithm: 'HS256',
+                expiresIn: '1h',
+              });
+
+            reply({
+              token,
+              scope: user.guid,
+            });
+          } else {
+            reply('incorrect password');
+          }
+        }).catch((err) => {
+          reply('server-side error: ', err);
+        });
+      }
+  }
 ];
 
 // -----------

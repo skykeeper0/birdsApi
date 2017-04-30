@@ -13,6 +13,11 @@ server.connection({
 
 // register(...) registers a module within the instance of the API. Use to verify the incoming token.
 server.register(require('hapi-auth-jwt'), (err) => {
+
+  if (!err) {
+    console.log('registered authentication provider');
+  }
+
   server.auth.strategy('token', 'jwt', {
     key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
 

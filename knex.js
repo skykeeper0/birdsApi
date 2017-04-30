@@ -1,4 +1,4 @@
-export default require('knex')({
+module.exports = require('knex')({
   client: 'mysql',
   connection: {
     host: 'localhost',

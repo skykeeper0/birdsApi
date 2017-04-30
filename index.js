@@ -1,7 +1,6 @@
 const Knex = require('./knex');
+const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 8080;
-
-// app.use(bodyParser.json());
 const Hapi = require('hapi');
 
 // Create a server with a host and port
@@ -44,7 +43,7 @@ server.route({
   path: '/birds',
   method: 'GET',
   handler: (request, reply) => {
-    const getOperation = Knex('birdbase').where({
+    const getOperation = Knex('birds').where({
 
       isPublic: true,
 
@@ -66,5 +65,57 @@ server.route({
       reply('server-side error');
     });
   },
+});
+
+// adding post bird route
+server.route({
+
+  path: '/auth',
+  method: 'POST',
+  handler: (request, reply) => {
+        // This is a ES6 standard
+    const { username, password } = request.payload;
+
+    const getOperation = Knex('users').where({
+
+      // Equiv. to `username: username`
+      username,
+
+    }).select('password', 'guid').then(([user]) => {
+        // if user are not found
+      if (!user) {
+          reply({
+
+            error: true,
+            errMessage: 'the specified user was not found',
+
+          });
+
+          // return to not suing else condition
+          return;
+        }
+
+        // if user are found
+      if (user.password === password) {
+          const token = jwt.sign({
+            username,
+            scope: user.guid,
+          }, 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy', {
+            algorithm: 'HS256',
+            expiresIn: '1h',
+          });
+          
+          reply({
+            token,
+            scope: user.guid,
+          });
+        } else {
+          reply('incorrect password');
+        }
+    }).catch((err) => {
+      reply('server-side error: ', err);
+    });
+  },
+
 });
 

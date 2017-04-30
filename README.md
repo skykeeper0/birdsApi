@@ -31,8 +31,9 @@ airbnb
 
 ## Built With
 
-* [Express](https://github.com/expressjs/express) - web framework for node
-* [jsdoc](https://github.com/jsdoc3/jsdoc) - document generator 
+* [Hapi](https://hapijs.com/) - framework to build application and server (similar to express)
+* [Knex](http://knexjs.org/) - SQL query builder for Postgres, MSSQL, MySQL, MariaDB, SQLite3, and Oracle
+* [mysql](https://www.mysql.com/) - database
 
 ## Authors
 

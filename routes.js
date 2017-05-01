@@ -141,9 +141,6 @@ const routes = [
       ],
     },
     handler: (request, reply) => {
-      console.log('params : ', request.params);
-      console.log('payload: ', request.payload);
-      console.log('credentials: ', request.auth.credentials);
       const { birdGuid } = request.params;
       const bird = request.payload;
 

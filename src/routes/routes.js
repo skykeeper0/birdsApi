@@ -1,4 +1,4 @@
-const Knex = require('./knex');
+const Knex = require('../connection/knex');
 const jwt = require('jsonwebtoken');
 const GUID = require('node-uuid');
 

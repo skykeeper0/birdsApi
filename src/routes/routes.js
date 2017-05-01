@@ -1,6 +1,7 @@
 const Knex = require('../connection/knex');
 const jwt = require('jsonwebtoken');
 const GUID = require('node-uuid');
+const secret = require('../config/config').secret;
 
 const routes = [
   {
@@ -87,7 +88,7 @@ const routes = [
             const token = jwt.sign({
               username,
               scope: user.guid,
-            }, 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy', {
+            }, secret, {
               algorithm: 'HS256',
               expiresIn: '1h',
             });

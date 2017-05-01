@@ -34,6 +34,7 @@ airbnb
 * [Hapi](https://hapijs.com/) - framework to build application and server (similar to express)
 * [Knex](http://knexjs.org/) - SQL query builder for Postgres, MSSQL, MySQL, MariaDB, SQLite3, and Oracle
 * [mysql](https://www.mysql.com/) - database
+* [jwt](https://jwt.io/) - JSON web token
 
 ## Authors
 

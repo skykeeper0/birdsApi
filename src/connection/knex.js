@@ -3,7 +3,7 @@ module.exports = require('knex')({
   connection: {
     host: 'freebird.c7vnc5yar7af.us-west-1.rds.amazonaws.com',
     user: 'admin',
-    password: 'demon895530',
+    password: '*********',
 
     database: 'birdbase',
     charset: 'utf8',
